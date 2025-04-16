@@ -1,209 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lowkey Lofi: Non-Disruptive Live Lofi Channels</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-    <div class="app-container">
-        <header class="app-header">
-            <div class="header-left">
-                <h1 class="app-title">My Todo List</h1>
-                <svg class="down-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-            </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
-            </div>
-        </header>
-        
-        <div class="todo-container">
-            <div class="add-task-container">
-                <input type="text" id="new-task-input" placeholder="Add a new task...">
-                <button id="add-task-btn">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </button>
-            </div>
-            
-            <div class="tasks-list" id="tasks-list">
-                <!-- Tasks will be added here dynamically -->
-            </div>
-            
-            <div class="todo-footer">
-                <span id="tasks-counter">0 items left</span>
-                <button id="clear-completed-btn">Clear completed</button>
-            </div>
-        </div>
-        
-        <!-- Task Edit Modal -->
-        <div class="edit-task-modal" id="edit-task-modal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Edit Task</h2>
-                    <button class="close-btn" id="close-edit-modal">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <form id="edit-task-form">
-                        <div class="form-group">
-                            <label for="edit-task-title">Task Title</label>
-                            <input type="text" id="edit-task-title" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="edit-task-description">Description (optional)</label>
-                            <textarea id="edit-task-description"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="edit-task-due-date">Due Date (optional)</label>
-                            <input type="date" id="edit-task-due-date">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="edit-task-priority">Priority</label>
-                            <select id="edit-task-priority">
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" id="delete-task-btn" class="delete-btn">Delete</button>
-                            <button type="submit" class="save-btn">Save Task</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Lists Modal -->
-        <div class="lists-modal" id="lists-modal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>My Lists</h2>
-                    <button class="close-btn" id="close-lists-modal">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="lists-container" id="lists-container">
-                        <!-- Lists will be added here dynamically -->
-                    </div>
-                    
-                    <div class="add-list-container">
-                        <input type="text" id="new-list-input" placeholder="Add a new list...">
-                        <div class="color-picker">
-                            <span class="color-option selected" data-color="#9764c7" style="background-color: #9764c7;"></span>
-                            <span class="color-option" data-color="#4c9aff" style="background-color: #4c9aff;"></span>
-                            <span class="color-option" data-color="#ff5630" style="background-color: #ff5630;"></span>
-                            <span class="color-option" data-color="#36b37e" style="background-color: #36b37e;"></span>
-                            <span class="color-option" data-color="#ffc400" style="background-color: #ffc400;"></span>
-                        </div>
-                        <button id="add-list-btn" class="add-btn">Add List</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Settings Panel -->
-        <div class="settings-panel" id="settings-panel">
-            <div class="settings-backdrop"></div>
-            <div class="settings-content">
-                <div class="settings-header">
-                    <h2>Settings</h2>
-                    <button class="close-btn" id="close-settings">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="settings-body">
-                    <div class="settings-section">
-                        <h3>Appearance</h3>
-                        
-                        <div class="setting-item toggle">
-                            <label for="dark-mode-toggle">Dark Mode</label>
-                            <label class="switch">
-                                <input type="checkbox" id="dark-mode-toggle" checked>
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        
-                        <div class="setting-item">
-                            <label for="accent-color">Accent Color</label>
-                            <div class="color-picker wide">
-                                <span class="color-option selected" data-color="#9764c7" style="background-color: #9764c7;"></span>
-                                <span class="color-option" data-color="#4c9aff" style="background-color: #4c9aff;"></span>
-                                <span class="color-option" data-color="#ff5630" style="background-color: #ff5630;"></span>
-                                <span class="color-option" data-color="#36b37e" style="background-color: #36b37e;"></span>
-                                <span class="color-option" data-color="#ffc400" style="background-color: #ffc400;"></span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>Notifications</h3>
-                        
-                        <div class="setting-item toggle">
-                            <label for="notifications-toggle">Enable Notifications</label>
-                            <label class="switch">
-                                <input type="checkbox" id="notifications-toggle">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        
-                        <div class="setting-item">
-                            <label for="reminder-time">Default Reminder Time</label>
-                            <input type="time" id="reminder-time" value="09:00">
-                        </div>
-                    </div>
-                    
-                    <div class="settings-section">
-                        <h3>Data Management</h3>
-                        
-                        <div class="setting-item">
-                            <button id="export-data-btn" class="secondary-btn">Export Data</button>
-                        </div>
-                        
-                        <div class="setting-item">
-                            <button id="import-data-btn" class="secondary-btn">Import Data</button>
-                            <input type="file" id="import-file" class="hidden" accept=".json">
-                        </div>
-                        
-                        <div class="setting-item">
-                            <button id="clear-data-btn" class="danger-btn">Clear All Data</button>
-                        </div>
-                    </div>
-                    
-                    <button class="save-btn" id="save-settings">Save Settings</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="bg-slate-900 text-gray-100 overflow-x-hidden">
+  <!-- Floating Background Elements -->
+  <div class="fixed -top-32 -right-64 w-[800px] h-[800px] bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
+  <div class="fixed -bottom-64 -left-64 w-[800px] h-[800px] bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl"></div>
 
-    <script src="script.js"></script>
+  <!-- MacBook Dock -->
+  <div id="dock" class="dock">
+    <div class="dock-content">
+      <!-- Custom icons for each channel -->
+      <button onclick="changeChannel('M-4zE2GG87w')" title="Spring Vibes"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/spring.png" alt="spring"></button>
+      <button onclick="changeChannel('r3JG5gBLbpA')" title="Lost in Japan" ><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/city-buildings.png" alt="city-buildings"></button>
+      <button onclick="changeChannel('vrB9wC6quaU')" title="Rooftop Rain" ><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/balcony.png" alt="balcony"></button>
+      <button onclick="changeChannel('92PvEVG0sKI')" title="Rooftop in The City"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/laptop.png" alt="laptop"></button>
+      <button onclick="changeChannel('hB2LatX6NLg')" title="Shibuya Nights"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/japan.png" alt="japan"></button>
+      <button onclick="changeChannel('vYIYIVmOo3Q')" title="Rainy Nights" ><img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/rain--v1.png" alt="rain--v1"></button>
+      <button onclick="changeChannel('CX9_h23icoM')" title="Radio Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/tabletop-radio.png" alt="tabletop-radio"/></button>
+      <button onclick="changeChannel('yf5NOyy1SXU')" title="Room with City View"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/empty-bed.png" alt="empty-bed"></button>
+      <button onclick="changeChannel('4LIu4EyuDXI')" title="Pokemon Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/egg-pokemon.png" alt="egg-pokemon"></button>
+      <button onclick="changeChannel('5yx6BWlEVcY')" title="Raccoon Taking a Walk"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/chillhop-music.png"></button>
+      <button onclick="changeChannel('0pb3E4PGxq8')" title="Cherry Blossom near a Cafe"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/sakura.png" alt="sakura"></button>
+      <button onclick="changeChannel('Vg13S-zzol0')" title="Raining in Japan"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/pagoda.png" alt="pagoda"></button>
+      <button onclick="changeChannel('FYJ7RCDgFwE')" title="Late Night Cafe"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/cafe.png" alt="cafe"></button>
+      <button onclick="changeChannel('LC0fYEpy2ng')" title="Lift Your Mood"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/happy--v1.png" alt="happy--v1"></button>
+      <button onclick="changeChannel('nP-aOc7g228')" title="Garden Cafe"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/garden.png" alt="garden"></button>
+      <button onclick="changeChannel('5D5b0-hfzno')" title="Star Wars"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/star-wars.png" alt="star-wars"></button>
+      <button onclick="changeChannel('jEIFHt4q6nA')" title="R&B and Neo Soul"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/saxophone.png" alt="saxophone"></button>
+      <button onclick="changeChannel('IDZHHQsmvmc')" title="Beach View"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/beach.png" alt="beach"></button>
+      <button onclick="changeChannel('yr9ZxQaWkqs')" title="Ramen Cafe"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/noodles.png" alt="noodles"></button>
+      <button onclick="changeChannel('_mHmfLfx0NU')" title="Trapsoul Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/cd--v1.png" alt="cd--v1"></button>
+      <button onclick="changeChannel('x0OLPEjna8A')" title="Lofi Cafe"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/espresso-cup.png" alt="espresso-cup"></button>
+      <button onclick="changeChannel('KMXZF-K2mus')" title="Code with Me"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/under-computer.png" alt="under-computer"></button>
+      <button onclick="changeChannel('GB7kh1tvZxY')" title="Coffee Shop Lofi"><img width="20" height="20" src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-vitaly-gorbachev/60/external-plates-kitchen-vitaliy-gorbachev-lineal-vitaly-gorbachev.png" alt="external-plates-kitchen-vitaliy-gorbachev-lineal-vitaly-gorbachev"></button>
+      <button onclick="changeChannel('orFvdB0gJng')" title="Vintage Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/alto-saxophone.png" alt="alto-saxophone"></button>
+      <button onclick="changeChannel('XM8bbRA3qio')" title="Video Game Inspired Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/nintendo-switch-pro-controller.png" alt="nintendo-switch-pro-controller"></button>
+      <button onclick="changeChannel('d_t5nnK9Rn4')" title="Spring Vibes"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/lotus.png" alt="lotus"></button>
+      <button onclick="changeChannel('28KRPhVzCus')" title="Lofi to Sleep To"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/pillow.png" alt="pillow"></button>
+      <button onclick="changeChannel('ft6R-UNXLSs')" title="Cat on the Train"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/pet-commands-train.png" alt="pet-commands-train"></button>
+      <button onclick="changeChannel('snL_Pdh51ww')" title="Raining in the 90s"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/high-speed-train.png" alt="high-speed-train"></button>
+      <button onclick="changeChannel('dw_Bx0e0lis')" title="Just Another Cafe Shop"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/food-bar.png" alt="food-bar"></button>
+      <button onclick="changeChannel('pxWfp8Hxazo')" title="Rainy Bookstore"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/book-shelf.png" alt="book-shelf"></button>
+      <button onclick="changeChannel('x9MolslcpzU')" title="Cyberpunk Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/vaporwave.png" alt="vaporwave"></button>
+      <button onclick="changeChannel('1AOMHYL_pz4')" title="Lofi Girl Locked In"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/reading.png" alt="reading"></button>
+      <button onclick="changeChannel('jfKfPfyJRdk')" title="OG Lofi Girl"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/hand-with-pen.png" alt="hand-with-pen"></button>
+      <button onclick="changeChannel('R4jvhTed_gM')" title="Lofi in The Living Room"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/portable-speaker2.png" alt="portable-speaker2"></button>
+      <button onclick="changeChannel('WcI5cDt37ec')" title="Office Space by the City"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/my-computer--v2.png" alt="my-computer--v2"></button>
+      <button onclick="changeChannel('7NOSDKb0HlU')" title="Raccoon Studying"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/person-laying-down.png" alt="person-laying-down"></button>
+      <button onclick="changeChannel('PRgS7hBgR1k')" title="Midnight by a Lake"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/bright-moon.png" alt="bright-moon"></button>
+      <button onclick="changeChannel('Lv0SzPoZltY')" title="Futuristic Room Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/workstation.png" alt="workstation"></button>
+      <button onclick="changeChannel('6tWWPn1lYgU')" title="Cat by the Window"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/latern.png" alt="latern"></button>
+      <button onclick="changeChannel('erUTqlcsDJI')" title="Lofi Alarm"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/2400.png" alt="2400"></button>
+      <button onclick="changeChannel('Na0w3Mz46GA')" title="Asian Inspired Beats"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/globe-asia.png" alt="globe-asia"></button>
+      <button onclick="changeChannel('wJSg1H8wOUg')" title="Soul Jazz Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/listening-to-music-on-headphones.png" alt="listening-to-music-on-headphones"></button>
+      <button onclick="changeChannel('pJE-euPdroo')" title="Locked In College Girl"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/glasses.png" alt="glasses"></button>
+      <button onclick="changeChannel('dxyaNvclgE8')" title="Purple Cat by the Window"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/galaxy.png" alt="galaxy"></button>
+      <button onclick="changeChannel('WelpRyoV0UY')" title="Shiba and Friend"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/hachiko.png" alt="hachiko"></button>
+      <button onclick="changeChannel('qH3fETPsqXU')" title="Sleep with Doggo"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/sleep.png" alt="sleep"></button>
+      <button onclick="changeChannel('P6Segk8cr-c')" title="In Your Feels Lofi"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/sad.png" alt="sad"></button>
+      <button onclick="changeChannel('wioHO5wlsYU')" title="Locked In Bear"><img width="20" height="20" src="https://img.icons8.com/hatch/64/bear.png" alt="bear"></button>
+      <button onclick="changeChannel('A_hmrykwR7g')" title="Evening Smoke"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/joint.png" alt="joint"></button>
+      <button onclick="changeChannel('1oDrJba2PSs')" title="Pomodoro Lofi"><img width="20" height="20" src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/50/external-pomodoro-date-and-time-tanah-basah-glyph-tanah-basah.png" alt="external-pomodoro-date-and-time-tanah-basah-glyph-tanah-basah" alt="joint"></button>
+      <button onclick="changeChannel('Lcdi9O2XB4E')" title="Tokyo Drive"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/car.png" alt="car"></button>
+      <button onclick="changeChannel('techmgGVOhk')" title="Frog by the Lake"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/frog.png" alt="frog"></button>
+      <button onclick="surpriseChannel()" title="Surprise Me"><img width="20" height="20" src="https://img.icons8.com/ios-filled/50/dice.png" alt="dice"></button>
+    </div>
+  </div>
+
+  <!-- Pomodoro Window -->
+  <div id="pomodoro-window" class="mini-window">
+    <div class="header">
+      <div class="header-left">
+        <h1 class="app-title">Pomodoro</h1>
+      </div>
+      <span class="close-btn" onclick="closeWindow()">X</span>
+    </div>
+    
+    <div class="progress-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    
+    <div class="timer-display">
+      <div class="timer-particles" id="particles-container"></div>
+      <div class="timer-time">25:00</div>
+    </div>
+    
+    <div class="timer-controls">
+      <button class="control-button primary" id="start-pause-btn">
+        <span id="start-pause-text">Start</span>
+      </button>
+      
+      <button class="control-button secondary" id="reset-btn" title="Reset Timer">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="timer-tabs">
+      <button class="tab-button active" data-mode="pomodoro">Pomodoro</button>
+      <button class="tab-button" data-mode="shortBreak">Short Break</button>
+      <button class="tab-button" data-mode="longBreak">Long Break</button>
+      
+      <button class="settings-btn" id="settings-btn" title="Settings">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settings-panel">
+    <div class="settings-backdrop"></div>
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="close-btn" id="close-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="settings-body">
+        <div class="settings-section">
+          <h3>Timer Duration</h3>
+          
+          <div class="setting-item">
+            <label for="pomodoro-length">Pomodoro</label>
+            <div class="input-with-unit">
+              <input type="number" id="pomodoro-length" min="1" max="60" value="25">
+              <span class="unit">minutes</span>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="short-break-length">Short Break</label>
+            <div class="input-with-unit">
+              <input type="number" id="short-break-length" min="1" max="30" value="5">
+              <span class="unit">minutes</span>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="long-break-length">Long Break</label>
+            <div class="input-with-unit">
+              <input type="number" id="long-break-length" min="1" max="60" value="15">
+              <span class="unit">minutes</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3>Sound</h3>
+          
+          <div class="setting-item toggle">
+            <label for="sound-toggle">Timer Sound</label>
+            <label class="switch">
+              <input type="checkbox" id="sound-toggle" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <label for="sound-theme">Sound Theme</label>
+            <select id="sound-theme">
+              <option value="minimal">Minimal</option>
+              <option value="nature">Nature</option>
+              <option value="electronic">Electronic</option>
+            </select>
+          </div>
+        </div>
+        
+        <button class="save-btn" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Container -->
+  <div class="video-container">
+    <iframe id="lofi-player" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=0&modestbranding=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
