@@ -1,0 +1,759 @@
+/* Global Styles */
+:root {
+    --primary: #9764c7;
+    --primary-light: #b78edb;
+    --primary-dark: #7e49b6;
+    --background: #1a1a2e;
+    --text: #ffffff;
+    --text-secondary: #cccccc;
+    --overlay: rgba(26, 26, 46, 0.7);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --border-radius: 12px;
+    --error: #ff5630;
+    --warning: #ffab00;
+    --success: #36b37e;
+    --info: #4c9aff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* App Container */
+.app-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* App Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.app-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-right: 0.3rem;
+}
+
+.down-arrow {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-secondary);
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.filter-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Todo Container */
+.todo-container {
+    backdrop-filter: blur(12px);
+    background-color: rgba(151, 100, 199, 0.1);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+/* Add Task Input */
+.add-task-container {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+#new-task-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+#new-task-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+#add-task-btn {
+    background-color: var(--primary);
+    border: none;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    color: white;
+    cursor: pointer;
+    padding: 0 1rem;
+    transition: background-color 0.2s ease;
+}
+
+#add-task-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+#add-task-btn .icon {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Tasks List */
+.tasks-list {
+    margin-bottom: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(151, 100, 199, 0.2);
+}
+
+.task-item:last-child {
+    border-bottom: none;
+}
+
+.task-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.task-checkbox:checked {
+    background-color: var(--primary);
+}
+
+.task-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 0.25rem;
+    height: 0.5rem;
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+}
+
+.task-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.25rem;
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.task-details {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.task-due-date, .task-priority {
+    display: inline-flex;
+    align-items: center;
+}
+
+.task-due-date .icon, .task-priority .icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
+}
+
+.task-actions {
+    margin-left: 0.5rem;
+}
+
+.edit-task-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.edit-task-btn .icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.edit-task-btn:hover {
+    color: var(--primary);
+}
+
+.priority-indicator {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+}
+
+.priority-low {
+    background-color: var(--info);
+}
+
+.priority-medium {
+    background-color: var(--warning);
+}
+
+.priority-high {
+    background-color: var(--error);
+}
+
+/* Todo Footer */
+.todo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(151, 100, 199, 0.2);
+    font-size: 0.75rem;
+}
+
+#tasks-counter {
+    color: var(--text-secondary);
+}
+
+#clear-completed-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+#clear-completed-btn:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* Modal Styles */
+.edit-task-modal, 
+.lists-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.edit-task-modal.open, 
+.lists-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    margin: auto;
+    background-color: rgba(36, 36, 56, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.edit-task-modal.open .modal-content, 
+.lists-modal.open .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.close-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.save-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.delete-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: rgba(255, 86, 48, 0.2);
+    color: var(--error);
+    border: 1px solid rgba(255, 86, 48, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: rgba(255, 86, 48, 0.3);
+}
+
+.secondary-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.danger-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255, 86, 48, 0.2);
+    color: var(--error);
+    border: 1px solid rgba(255, 86, 48, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.danger-btn:hover {
+    background-color: rgba(255, 86, 48, 0.3);
+}
+
+/* Lists Container */
+.lists-container {
+    margin-bottom: 1.5rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.list-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.list-item.active {
+    background-color: rgba(151, 100, 199, 0.2);
+}
+
+.list-color {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.list-name {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.list-delete-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.list-item:hover .list-delete-btn {
+    opacity: 1;
+}
+
+.list-delete-btn .icon {
+    width: 0.9rem;
+    height: 0.9rem;
+}
+
+.add-list-container {
+    margin-top: 1rem;
+}
+
+.add-list-container input {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.add-list-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.color-picker {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.color-picker.wide {
+    justify-content: space-between;
+}
+
+.color-option {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 2px solid var(--text);
+    border-radius: 50%;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Settings Panel */
+.settings-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.settings-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.settings-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+}
+
+.settings-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 350px;
+    height: 100%;
+    background-color: rgba(36, 36, 56, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.settings-panel.open .settings-content {
+    transform: translateX(0);
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.settings-header h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.settings-section {
+    margin-bottom: 2rem;
+}
+
+.settings-section h3 {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.setting-item {
+    margin-bottom: 1rem;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.setting-item.toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.setting-item.toggle label {
+    margin-bottom: 0;
+}
+
+.setting-item input[type="time"] {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(151, 100, 199, 0.2);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+/* Switch (Toggle) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .app-container {
+        padding: 0.5rem;
+    }
+    
+    .todo-container {
+        padding: 1rem;
+    }
+    
+    .settings-content,
+    .modal-content {
+        max-width: 100%;
+    }
+}

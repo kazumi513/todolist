@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="app-title">My Todo List</h1>
+                <svg class="down-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+        </header>
+        
+        <div class="todo-container">
+            <div class="add-task-container">
+                <input type="text" id="new-task-input" placeholder="Add a new task...">
+                <button id="add-task-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="tasks-list" id="tasks-list">
+                <!-- Tasks will be added here dynamically -->
+            </div>
+            
+            <div class="todo-footer">
+                <span id="tasks-counter">0 items left</span>
+                <button id="clear-completed-btn">Clear completed</button>
+            </div>
+        </div>
+        
+        <!-- Task Edit Modal -->
+        <div class="edit-task-modal" id="edit-task-modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit Task</h2>
+                    <button class="close-btn" id="close-edit-modal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form id="edit-task-form">
+                        <div class="form-group">
+                            <label for="edit-task-title">Task Title</label>
+                            <input type="text" id="edit-task-title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-task-description">Description (optional)</label>
+                            <textarea id="edit-task-description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-task-due-date">Due Date (optional)</label>
+                            <input type="date" id="edit-task-due-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-task-priority">Priority</label>
+                            <select id="edit-task-priority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="delete-task-btn" class="delete-btn">Delete</button>
+                            <button type="submit" class="save-btn">Save Task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lists Modal -->
+        <div class="lists-modal" id="lists-modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>My Lists</h2>
+                    <button class="close-btn" id="close-lists-modal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="lists-container" id="lists-container">
+                        <!-- Lists will be added here dynamically -->
+                    </div>
+                    
+                    <div class="add-list-container">
+                        <input type="text" id="new-list-input" placeholder="Add a new list...">
+                        <div class="color-picker">
+                            <span class="color-option selected" data-color="#9764c7" style="background-color: #9764c7;"></span>
+                            <span class="color-option" data-color="#4c9aff" style="background-color: #4c9aff;"></span>
+                            <span class="color-option" data-color="#ff5630" style="background-color: #ff5630;"></span>
+                            <span class="color-option" data-color="#36b37e" style="background-color: #36b37e;"></span>
+                            <span class="color-option" data-color="#ffc400" style="background-color: #ffc400;"></span>
+                        </div>
+                        <button id="add-list-btn" class="add-btn">Add List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settings-panel">
+            <div class="settings-backdrop"></div>
+            <div class="settings-content">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <button class="close-btn" id="close-settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="settings-body">
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        
+                        <div class="setting-item toggle">
+                            <label for="dark-mode-toggle">Dark Mode</label>
+                            <label class="switch">
+                                <input type="checkbox" id="dark-mode-toggle" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="accent-color">Accent Color</label>
+                            <div class="color-picker wide">
+                                <span class="color-option selected" data-color="#9764c7" style="background-color: #9764c7;"></span>
+                                <span class="color-option" data-color="#4c9aff" style="background-color: #4c9aff;"></span>
+                                <span class="color-option" data-color="#ff5630" style="background-color: #ff5630;"></span>
+                                <span class="color-option" data-color="#36b37e" style="background-color: #36b37e;"></span>
+                                <span class="color-option" data-color="#ffc400" style="background-color: #ffc400;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        
+                        <div class="setting-item toggle">
+                            <label for="notifications-toggle">Enable Notifications</label>
+                            <label class="switch">
+                                <input type="checkbox" id="notifications-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="reminder-time">Default Reminder Time</label>
+                            <input type="time" id="reminder-time" value="09:00">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Data Management</h3>
+                        
+                        <div class="setting-item">
+                            <button id="export-data-btn" class="secondary-btn">Export Data</button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <button id="import-data-btn" class="secondary-btn">Import Data</button>
+                            <input type="file" id="import-file" class="hidden" accept=".json">
+                        </div>
+                        
+                        <div class="setting-item">
+                            <button id="clear-data-btn" class="danger-btn">Clear All Data</button>
+                        </div>
+                    </div>
+                    
+                    <button class="save-btn" id="save-settings">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
